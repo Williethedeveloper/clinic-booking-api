@@ -59,9 +59,13 @@ function formatBooking(row) {
 // ============================================================================
 // LEVEL 2: X-API-Key Authentication Middleware
 // ============================================================================
+const EXPECTED_API_KEY = (process.env.API_KEY || 'koya-secret-key-2026')
+  .trim()
+  .replace(/^["']|["']$/g, '');
+
 const requireApiKey = (req, res, next) => {
-  const apiKey = req.headers['x-api-key'];
-  if (!apiKey || apiKey !== process.env.API_KEY) {
+  const apiKey = req.headers['x-api-key']?.trim();
+  if (!apiKey || apiKey !== EXPECTED_API_KEY) {
     return res.status(401).json({ error: 'Unauthorized: missing or invalid X-API-Key' });
   }
   next();
@@ -69,9 +73,8 @@ const requireApiKey = (req, res, next) => {
 
 // Helper route so our frontend webpage can automatically fill in the API Key
 app.get('/config', (req, res) => {
-  res.json({ apiKey: process.env.API_KEY || '' });
+  res.json({ apiKey: EXPECTED_API_KEY });
 });
-
 // ============================================================================
 // POST /reset (Level 1 · Replace all slots and clear bookings)
 // ============================================================================

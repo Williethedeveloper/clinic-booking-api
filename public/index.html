@@ -63,7 +63,7 @@
 
   <div class="card">
     <label for="apiKey">X-API-Key</label>
-    <input type="text" id="apiKey" placeholder="Enter your X-API-Key" />
+    <input type="text" id="apiKey" value="koya-secret-key-2026" placeholder="Enter your X-API-Key" />
     <button onclick="loadSlots()">Refresh Slots</button>
     <button class="secondary" onclick="seedDemoSlots()">Reset & Load Demo Slots (/reset)</button>
   </div>
@@ -122,7 +122,7 @@
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Failed to load slots');
-
+        confirmArea.innerHTML = '';
         list.innerHTML = '';
         select.innerHTML = '<option value="">-- Select an available slot --</option>';
 
